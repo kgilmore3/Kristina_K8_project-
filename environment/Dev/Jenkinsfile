@@ -1,0 +1,33 @@
+pipeline{
+    agent any
+    
+    stages {
+        
+        stage('Auto Discover New Worker IP and Add it to Cluster'){
+            steps{
+               sshagent (['jenkins-key']) {
+                   sh 'ssh -t -t ubuntu@10.0.3.247 -o strictHostKeyChecking=no "ansible-playbook /home/ubuntu/playbooks/auto-descovery.yml"'
+                   sh 'ssh -t -t ubuntu@10.0.3.247 -o strictHostKeyChecking=no "ansible-playbook /home/ubuntu/playbooks/ReadyMade_helm.yml"'
+                }
+            }
+        }
+        stage('Deployment notification'){
+            steps{
+                slackSend channel: 'dre-jenkins-build', message: 'deployment to prod ok', teamDomain: 'devopsfullyau-r0x2686', tokenCredentialId: 'slack-cred'
+                emailext body: 'Deployed to prod successfully', subject: 'Deployed to Prod', to: 'oladimejiibrahim751@gmail.com'
+            }
+        }
+        
+        
+    }
+    post{
+        success{
+           slackSend channel: 'dre-jenkins-build', message: 'final deployment ok', teamDomain: 'devopsfullyau-r0x2686', tokenCredentialId: 'slack-cred'
+           emailext body: 'Deployed successfully ok', subject: 'Final Deployed ok', to: 'oladimejiibrahim751@gmail.com' 
+        }
+        failure{
+           slackSend channel: 'dre-jenkins-build', message: 'fail to deploy', teamDomain: 'devopsfullyau-r0x2686', tokenCredentialId: 'slack-cred'
+           emailext body: 'Fail to deploy', subject: 'Fil to deploy', to: 'oladimejiibrahim751@gmail.com' 
+        }
+    }
+}
