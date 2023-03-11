@@ -1,0 +1,36 @@
+- hosts: Main-Master
+  become: yes
+
+  tasks:
+    - name: Install Helms
+      shell: |
+        rm -rvf helm-v3.5.2-linux-amd64.tar.gz
+        wget https://get.helm.sh/helm-v3.5.2-linux-amd64.tar.gz
+        tar -xvzf helm-v3.5.2-linux-amd64.tar.gz
+        sudo cp linux-amd64/helm /usr/bin/
+        rm -rvf /home/ubuntu/application
+
+    - name: Send helm directory to main master
+      copy:
+        src: /home/ubuntu/playbooks/Helm/application
+        dest: /home/ubuntu/
+        owner: root
+        group: root
+        mode: '0777'
+
+    - name: Create Helm Chart for wordpress
+      shell: |
+        sudo su -c 'helm uninstall wordpress' ubuntu
+        helm create /home/ubuntu/application/wordpress
+        sudo rm -rvf /home/ubuntu/application/wordpress/templates/* /home/ubuntu/application/wordpress/values.yaml
+        cp -r /home/ubuntu/application/wordpresss/* /home/ubuntu/application/wordpress/templates/
+        mv /home/ubuntu/application/wordpress/templates/values.yaml /home/ubuntu/application/wordpress
+        sudo su -c 'helm install wordpress /home/ubuntu/application/wordpress' ubuntu
+      
+    - name: Creat Helm Chart for database
+      shell: |
+        sudo su -c 'helm uninstall database' ubuntu
+        helm create /home/ubuntu/application/database
+        sudo rm -rvf /home/ubuntu/application/database/templates/* /home/ubuntu/application/database/values.yaml
+        cp -r /home/ubuntu/application/databasee/* /home/ubuntu/application/database/templates/
+        sudo su -c 'helm install database /home/ubuntu/application/database' ubuntu

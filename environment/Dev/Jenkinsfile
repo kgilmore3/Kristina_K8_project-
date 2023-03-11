@@ -14,7 +14,7 @@ pipeline{
         stage('Deployment notification'){
             steps{
                 slackSend channel: 'dre-jenkins-build', message: 'deployment to prod ok', teamDomain: 'devopsfullyau-r0x2686', tokenCredentialId: 'slack-cred'
-                emailext body: 'Deployed to prod successfully', subject: 'Deployed to Prod', to: 'oladimejiibrahim751@gmail.com'
+                emailext body: 'Deployed to prod successfully', subject: 'Deployed to Prod', to: 'kswartout16@gmail.com@gmail.com'
             }
         }
         
@@ -23,11 +23,11 @@ pipeline{
     post{
         success{
            slackSend channel: 'dre-jenkins-build', message: 'final deployment ok', teamDomain: 'devopsfullyau-r0x2686', tokenCredentialId: 'slack-cred'
-           emailext body: 'Deployed successfully ok', subject: 'Final Deployed ok', to: 'oladimejiibrahim751@gmail.com' 
+           emailext body: 'Deployed successfully ok', subject: 'Final Deployed ok', to: 'kswartout16@gmail.com' 
         }
         failure{
            slackSend channel: 'dre-jenkins-build', message: 'fail to deploy', teamDomain: 'devopsfullyau-r0x2686', tokenCredentialId: 'slack-cred'
-           emailext body: 'Fail to deploy', subject: 'Fil to deploy', to: 'oladimejiibrahim751@gmail.com' 
+           emailext body: 'Fail to deploy', subject: 'Fil to deploy', to: 'kswartout16@gmail.com' 
         }
     }
 }

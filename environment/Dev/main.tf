@@ -77,7 +77,7 @@ resource "null_resource" "ansible_configure" {
     bastion_private_key = file("~/keypairs/K8-kp")
   }
   provisioner "file" {
-    source      = "~/Kristina_K8_project/environment/Dev/playbooks" 
+    source      = "~/Desktop/MyProjects/Kristina_K8_project_2/environment/Dev/playbooks" 
     destination = "/home/ubuntu/playbooks"
   }
   provisioner "file" {

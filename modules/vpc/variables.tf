@@ -1,6 +1,6 @@
 #VPC Name
 variable "vpc_name" {
-  description = "VPC for the Kubernetes Project"
+  description = "VPC for the Pet Adoption Project"
   type        = string
   default     = "K8-vpc"
 }
@@ -26,14 +26,14 @@ variable "vpc_cidr_block" {
 variable "vpc_az1" {
   description = "VPC AZs"
   type        = string
-  default     = "us-west-2a"
+  default     = "eu-west-2a"
 }
 
 # VPC Availability Zone2
 variable "vpc_az2" {
   description = "VPC AZs"
   type        = string
-  default     = "us-west-2b"
+  default     = "eu-west-2b"
 }
 
 # VPC Public Subnets

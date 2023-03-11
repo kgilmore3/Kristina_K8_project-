@@ -41,5 +41,3 @@ EOF
     Name = "HA-LB"
   }
 }
-
-

@@ -1,0 +1,29 @@
+- hosts: Main-Master
+  become: yes
+
+  tasks:
+    - name: Install Helms
+      shell: |
+        rm -rvf helm-v3.5.2-linux-amd64.tar.gz
+        wget https://get.helm.sh/helm-v3.5.2-linux-amd64.tar.gz
+        tar -xvzf helm-v3.5.2-linux-amd64.tar.gz
+        sudo cp linux-amd64/helm /usr/bin/
+        rm -rvf /home/ubuntu/application
+
+    - name: Clone git repo for ready made Helm Chart
+      shell: |
+        rm -rvf /home/ubuntu/microservices-demo
+        git clone https://github.com/GoogleCloudPlatform/microservices-demo.git
+
+    - name: Edit frontend.yaml from the cloned repo to render app at port 30220
+      shell: |
+        sudo sed -i '145 i \ \ \ \ nodePort: 30220' /home/ubuntu/microservices-demo/helm-chart/templates/frontend.yaml 
+
+
+    - name: Remove Helm Chart If Available
+      command: sudo su -c 'helm uninstall boutique' ubuntu
+      ignore_errors: yes
+
+    - name : Install Helm Chart from the cloned repo
+      shell: |
+        sudo su -c 'helm install boutique /home/ubuntu/microservices-demo/helm-chart' ubuntu

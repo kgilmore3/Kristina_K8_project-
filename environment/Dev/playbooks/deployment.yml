@@ -1,0 +1,16 @@
+---
+ - hosts: Workers
+   become: yes
+
+   tasks:
+    - name: Clone Application Repo
+      shell: |
+        sudo rm -rvf /home/ubuntu/microservices-demo
+        git clone https://github.com/microservices-demo/microservices-demo.git
+
+    - name: Deploy application
+      shell: sudo su -c 'kubectl create -f /home/ubuntu/microservices-demo/deploy/kubernetes/complete-demo.yaml' ubuntu
+      args: 
+        chdir: microservices-demo/deploy/kubernetes
+      ignore_errors: yes
+      

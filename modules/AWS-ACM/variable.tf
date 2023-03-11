@@ -1,5 +1,5 @@
 variable "domain-name" {
-    default = "kristinamarieonline.com"
+    default = "daiconapp2.com"
 }
 variable "lb_arn" {
     default = "Value can be gooten from LB"
