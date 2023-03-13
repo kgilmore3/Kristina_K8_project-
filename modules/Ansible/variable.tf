@@ -1,5 +1,5 @@
 variable "ami" {
-    default = "ami-0aaa5410833273cfe"
+    default = "ami-0735c191cf914754d"
 }
 
 variable "inst-type" {

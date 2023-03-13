@@ -24,6 +24,18 @@ variable "ssh_port" {
   description = "this port allows ssh access"
 }
 
-variable "all_access" {
-  default = "0.0.0.0/0"
+variable "https_lb" {
+  default     = 443
+  description = "this port allows access"
 }
+
+variable "https_api" {
+  default     = 6443
+  description = "this port allows ssh access"
+}
+
+variable "cluster_port" {
+  default     = 30220
+  description = "this port allows ssh access"
+}
+
